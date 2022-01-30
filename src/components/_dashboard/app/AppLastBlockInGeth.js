@@ -41,7 +41,7 @@ export default function AppLastBlockInGeth(props) {
       <IconWrapperStyle>
         <Icon icon={blockIcon} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(block)}</Typography>
+      <Typography variant="h3">{block}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Last block in the geth
       </Typography>

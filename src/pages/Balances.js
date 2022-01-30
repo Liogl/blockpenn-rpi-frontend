@@ -46,7 +46,7 @@ export default function User() {
                 <TableHead>
                   <TableRow>
                     <TableCell>Name</TableCell>
-                    <TableCell align="left">EthAddress</TableCell>
+                    <TableCell align="left">ETH Address</TableCell>
                     <TableCell align="left">Balance</TableCell>
                   </TableRow>
                 </TableHead>
@@ -58,7 +58,11 @@ export default function User() {
                         <TableCell align="left">
                           <b>{Name}</b>
                         </TableCell>
-                        <TableCell align="left">{EthAddress}</TableCell>
+                        <TableCell align="left">
+                          {EthAddress === '0x0000000000000000000000000000000000000000'
+                            ? '----'
+                            : EthAddress}
+                        </TableCell>
                         <TableCell align="left">{Balance}</TableCell>
                       </TableRow>
                     );
