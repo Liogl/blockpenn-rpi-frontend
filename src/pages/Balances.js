@@ -45,25 +45,22 @@ export default function User() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell align="left">ETH Address</TableCell>
+                    <TableCell>DP Address</TableCell>
+                    <TableCell align="left">ERC20 Address</TableCell>
+                    <TableCell align="left">ERC20 Name</TableCell>
                     <TableCell align="left">Balance</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {lst.map((row) => {
-                    const { Name, EthAddress, Balance } = row;
+                    const { DPEthAddress, ERC20Name, ERC20EthAddress, ERC20Balance } = row;
                     return (
-                      <TableRow key={EthAddress}>
+                      <TableRow key={DPEthAddress}>
                         <TableCell align="left">
-                          <b>{Name}</b>
+                          <b>{ERC20Name}</b>
                         </TableCell>
-                        <TableCell align="left">
-                          {EthAddress === '0x0000000000000000000000000000000000000000'
-                            ? '----'
-                            : EthAddress}
-                        </TableCell>
-                        <TableCell align="left">{Balance}</TableCell>
+                        <TableCell align="left">{ERC20EthAddress}</TableCell>
+                        <TableCell align="left">{ERC20Balance}</TableCell>
                       </TableRow>
                     );
                   })}

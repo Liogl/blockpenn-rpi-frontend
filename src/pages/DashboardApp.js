@@ -5,10 +5,10 @@ import { $config, $status, fetchStatus } from '../stores/stores';
 // components
 import Page from '../components/Page';
 import {
+  EthBalance,
   AppFullNodeActive,
   AppLastBlockInGeth,
-  AppNetworkId,
-  AppLastBlockInApp
+  AppNetworkId
 } from '../components/_dashboard/app';
 
 // ----------------------------------------------------------------------
@@ -34,9 +34,6 @@ export default function DashboardApp() {
         </Box>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppLastBlockInApp block={status.result === null ? '' : status.result.AppLastBlock} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
             <AppLastBlockInGeth block={status.result === null ? '' : status.result.GethLastBlock} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
@@ -46,6 +43,9 @@ export default function DashboardApp() {
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppNetworkId id={config.result === null ? '' : config.result.NetworkId} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <EthBalance balance={config.result === null ? '' : config.result.EthBalance} />
           </Grid>
         </Grid>
       </Container>
