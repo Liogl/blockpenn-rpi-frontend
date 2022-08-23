@@ -39,7 +39,7 @@ export default function EthBalance(props) {
       <IconWrapperStyle>
         <Icon icon={ethereumIcon} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{balance.substring(0, 7)}</Typography>
+      <Typography variant="h3">{balance === null ? 'N/A' : balance.substring(0, 7)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Balance (ETH)
       </Typography>

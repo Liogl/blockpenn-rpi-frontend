@@ -28,3 +28,22 @@ export const fetchSensors = createServiceEffect(
 );
 
 export const $sensors = createServiceStore(fetchSensors, null);
+
+export const updateSensor = createServiceEffect(
+  async (params) =>
+    fetch(`${apiURL()}/sensors`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params)
+    }),
+  'update/sensor'
+);
+
+$sensors.on(updateSensor.doneData, (state, { params }) => {
+  console.log(params);
+  const { result } = state;
+  const { Enabled } = params;
+  const index = result.findIndex(({ Id }) => Id === params.Id);
+  result[index].Enabled = Enabled;
+  return { ...state, result };
+});

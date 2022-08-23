@@ -45,10 +45,10 @@ export default function User() {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>DP Address</TableCell>
-                    <TableCell align="left">ERC20 Address</TableCell>
-                    <TableCell align="left">ERC20 Name</TableCell>
-                    <TableCell align="left">Balance</TableCell>
+                    <TableCell>ERC20 Name</TableCell>
+                    <TableCell align="left">Address Data Processor</TableCell>
+                    <TableCell align="left">Address ERC20</TableCell>
+                    <TableCell align="left">Balance ERC20</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -59,6 +59,7 @@ export default function User() {
                         <TableCell align="left">
                           <b>{ERC20Name}</b>
                         </TableCell>
+                        <TableCell align="left">{DPEthAddress}</TableCell>
                         <TableCell align="left">{ERC20EthAddress}</TableCell>
                         <TableCell align="left">{ERC20Balance}</TableCell>
                       </TableRow>
