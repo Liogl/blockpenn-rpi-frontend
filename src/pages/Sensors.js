@@ -1,5 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useStore } from 'effector-react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 // material
 import {
   Card,
@@ -22,6 +29,91 @@ import { $sensors, fetchSensors, updateSensor } from '../stores/stores';
 
 // ----------------------------------------------------------------------
 
+function SensorRow(props) {
+  const { sensor } = props;
+
+  function handleChange() {
+    return function (event) {
+      sensor.Enabled = event.target.checked;
+      updateSensor(sensor);
+      fetchSensors();
+    };
+  }
+  const [open, setOpen] = useState(false);
+  const [addValue, setAddValue] = useState(sensor.Add);
+  const [mulValue, setMulValue] = useState(sensor.Mul);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleSave = () => {
+    sensor.Add = addValue;
+    sensor.Mul = mulValue;
+    updateSensor(sensor);
+    setOpen(false);
+    fetchSensors();
+  };
+  const handleAddChange = (event) => {
+    setAddValue(parseFloat(event.target.value));
+  };
+  const handleMulChange = (event) => {
+    setMulValue(parseFloat(event.target.value));
+  };
+  const { ID, Type, Enabled, Atime } = sensor;
+  return (
+    <TableRow key={ID}>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Calibration</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Y=(X+Add)*Mul</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="add"
+            label="Adding value"
+            type="number"
+            fullWidth
+            variant="standard"
+            value={addValue}
+            onChange={handleAddChange}
+          />
+          <TextField
+            margin="dense"
+            id="mul"
+            label="Multiplying value"
+            type="number"
+            fullWidth
+            variant="standard"
+            value={mulValue}
+            onChange={handleMulChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSave}>Save</Button>
+        </DialogActions>
+      </Dialog>
+      <TableCell align="left">
+        <b>{ID}</b>
+      </TableCell>
+      <TableCell align="left">{Type}</TableCell>
+      <TableCell align="left">{Atime}</TableCell>
+      <TableCell align="left">
+        <Switch
+          checked={Enabled}
+          onChange={handleChange()}
+          inputProps={{ 'aria-label': 'controlled' }}
+        />
+        <Button variant="outlined" onClick={handleClickOpen}>
+          calibrate
+        </Button>
+      </TableCell>
+    </TableRow>
+  );
+}
+
 export default function Sensor() {
   useEffect(() => {
     fetchSensors();
@@ -30,12 +122,6 @@ export default function Sensor() {
   let lst = [];
   if (sensors.result !== null) {
     lst = sensors.result;
-  }
-  function handleChange(sensor) {
-    return (event) => {
-      sensor.Enabled = event.target.checked;
-      updateSensor(sensor);
-    };
   }
   return (
     <Page title="Sensors | BlockPenn RPi">
@@ -59,25 +145,9 @@ export default function Sensor() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {lst.map((row) => {
-                    const { ID, Type, Enabled, Atime } = row;
-                    return (
-                      <TableRow key={ID}>
-                        <TableCell align="left">
-                          <b>{ID}</b>
-                        </TableCell>
-                        <TableCell align="left">{Type}</TableCell>
-                        <TableCell align="left">{Atime}</TableCell>
-                        <TableCell align="left">
-                          <Switch
-                            checked={Enabled}
-                            onChange={handleChange(row)}
-                            inputProps={{ 'aria-label': 'controlled' }}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                  {lst.map((row) => (
+                    <SensorRow key={row.ID} sensor={row} />
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>
